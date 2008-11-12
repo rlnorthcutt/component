@@ -4,69 +4,44 @@
 /**
  * Implementation of hook_menu().
  */
-function component_menu($may_cache) {
+function component_menu() {
   $items = array();
-  if ($may_cache) {
-    
+
+  $items['node/%node/component'] = array(
+    'page callback' => 'component_ajax_get_node',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['component/node/%node'] = array(
+    'page callback' => 'component_ajax_get_node',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['component/block/%/%'] = array(
+    'page callback' => 'component_ajax_get_block',
+    'page arguments' => array(2, 3),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  if (module_exists('views')) {
+    $items['component/view/%'] = array(
+      'page callback' => 'component_ajax_get_view',
+      'page arguments' => array(2),
+      'access arguments' => array('access content'),
+      'type' => MENU_CALLBACK,
+    );
+    $items['component/viewform/%'] = array(
+      'page callback' => 'component_ajax_get_view_filter_form',
+      'page arguments' => array(2),
+      'access arguments' => array('access content'),
+      'type' => MENU_CALLBACK,
+    );
   }
-  else {
-    if (arg(0) == 'node' && is_numeric(arg(1))) {
-      // Add the ajax-component callback for nodes
-      $items[] = array(
-        'path' => 'node/' . arg(1) . '/get',
-        'callback' => 'component_ajax_get_node',
-        'callback arguments' => array(arg(1)),
-        'access' => user_access('access content'),
-        'type' => MENU_CALLBACK,
-      );
-    }
-    elseif (arg(0) == 'component' && arg(1) == 'node' && is_numeric(arg(2))) {
-      // Add the ajax-component callback for nodes (yes, we allow it in both places)
-      $items[] = array(
-        'path' => 'component/node/' . arg(2),
-        'callback' => 'component_ajax_get_node',
-        'callback arguments' => array(arg(2)),
-        'access' => user_access('access content'),
-        'type' => MENU_CALLBACK,
-      );
-    }
-    elseif (arg(0) == 'component' && arg(1) == 'block' && arg(2) && arg(3)) {
-      // Add the ajax-component callback for blocks
-      $items[] = array(
-        'path' => 'component/block/' . arg(2) . '/' . arg(3),
-        'callback' => 'component_ajax_get_block',
-        'callback arguments' => array(arg(2), arg(3)),
-        'access' => user_access('access content'),
-        'type' => MENU_CALLBACK,
-      );
-    }
-    elseif (arg(0) == 'component' && arg(1) == 'view' && arg(2) && module_exists('views')) {
-      // Add the ajax-component callback for views
-      $i = 2;
-      $parts = array();
-      while ($parts[] = arg($i++));
-      array_pop($parts);  // The last item will be boolean false
-      $items[] = array(
-        'path' => 'component/view/' . implode('/', $parts),
-        'callback' => 'component_ajax_get_view',
-        'callback arguments' => $parts,
-        'access' => user_access('access content'),
-        'type' => MENU_CALLBACK,
-      );
-    }
-    elseif (arg(0) == 'component' && arg(1) == 'viewform') {
-      // Add the ajax-component callback for views filter forms
-      $items[] = array(
-        'path' => 'component/viewform/' . arg(2),
-        'callback' => 'component_ajax_get_view_filter_form',
-        'callback arguments' => array(arg(2)),
-        'access' => user_access('access content'),
-        'type' => MENU_CALLBACK,
-      );
-    }
-  }
-  
-  
+
   return $items;
 }
 
@@ -94,58 +69,44 @@ function component_get_block($module, $delta, $title_text = NULL) {
 }
 
 
-if(module_exists('views')) {
-  /**
-  * Output function for the 'views' content type. Outputs a views
-  * based on the module and delta supplied in the configuration.
-  *
-  * @param $view_name
-  *   The name of the view to display 
-  */
-  //function component_get_view($view_name, $type, $override_url='', $args=array(), $pager_id=0, $nodes_per_page=0) {
-  function component_get_view($view_name) {
-    $args = func_get_args();
-    $view_name = array_shift($args);
-    $view = views_get_view($view_name);
-
-    if (!$view) {
-      $output = t('No such view');
-      return $output;
-    }
-
-    $output = views_build_view('embed', $view, $args, $view->use_pager, $view->nodes_per_page);
-    if ($output === FALSE) {
-      $output = t('View has no data');
-    }
-
-    return $output;
-  }
-  
-  /**
-   * Returns the rendered filter form for a specified view
-   *
-   */
-  function component_get_view_filter_form($view_name) {
-    $view = views_get_view($view_name);
-    return views_theme('views_display_filters', $view);
-  }
-}
-
-if (module_exists('panels')) {
-  function component_get_panel($did) {
-    return panels_panels_page($did);
-  }
+/**
+* Output function for the 'views' content type. Outputs a views
+* based on the view and display name.
+*
+* @param $view_name
+*   The name of the view to display
+* @param $display
+*   The name of the display on the specified view.
+*/
+function component_get_view($view_name, $display) {
+  return views_embed_view($view_name, $display);
 }
 
 /**
- * Returns the themed contents of a node
+ * Returns the rendered filter form for a specified view.
+ */
+function component_get_view_filter_form($view_name) {
+  $args = func_get_args();
+  $view = views_get_view($view_name);
+  return views_theme('views_display_filters', $view);
+}
+
+/*
+// I've no idea how this will work when Panels is actually done. :-)
+function component_get_panel($did) {
+  return panels_panels_page($did);
+}
+*/
+
+/**
+ * Returns the themed contents of a node.
  *
- * @param $nid
- *  The node id of the node to display
+ * @param $node
+ *  The node object to display.
  *
  */
-function component_get_node($nid) {
-  return node_show(node_load($nid), $cid);
+function component_get_node($node) {
+  return node_show($node, 0);
 }
 
 /*
@@ -157,8 +118,8 @@ function component_ajax_get_block($module, $delta) {
   exit();
 }
 
-function component_ajax_get_node($nid) {
-  print component_get_node($nid);
+function component_ajax_get_node($node) {
+  print component_get_node($node);
   exit();
 }
 
