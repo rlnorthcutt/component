@@ -9,7 +9,7 @@ full page theming.  That makes them very useful as Ajax callbacks to "fetch a no
 
 REQUIREMENTS
 
-- Drupal 5
+- Drupal 6
 - Views module (optional)
 
 INSTALLATION
@@ -23,5 +23,4 @@ Larry Garfield
 larry at garfieldtech dot com
 http://www.garfieldtech.com/
 
-This module was originally developed for www.Star-Fleet.com and released under the GNU General
-Public License v2.
+This module was originally developed for www.Star-Fleet.com.
