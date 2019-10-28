@@ -9,8 +9,8 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 /**
  * Discovery service for front-end components provided by modules and themes.
  *
- * Components (anything whose info file 'type' is 'component') are treated as Drupal
- * extensions unto themselves.
+ * Components (anything whose info file 'type' is 'component') are treated as
+ * Drupal extensions unto themselves.
  */
 class ComponentDiscovery extends ExtensionDiscovery implements ComponentDiscoveryInterface {
 
@@ -52,12 +52,12 @@ class ComponentDiscovery extends ExtensionDiscovery implements ComponentDiscover
     $components = $this->scan('component');
 
     // Set defaults for module info.
-    $defaults = array(
-      'dependencies' => array(),
+    $defaults = [
+      'dependencies' => [],
       'description' => '',
       'package' => 'Other',
       'version' => NULL,
-    );
+    ];
 
     // Read info files for each module.
     foreach ($components as $key => $component) {

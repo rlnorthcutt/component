@@ -48,7 +48,7 @@ abstract class ComponentBlock extends BlockBase implements FrameworkAwareBlockIn
     $component = $this->getComponentInfo();
     $this->configuration['uuid'] = \Drupal::service('uuid')->generate();
 
-    $attached = array();
+    $attached = [];
 
     $framework = $this->attachFramework($component);
     if ($framework) {
@@ -77,9 +77,9 @@ abstract class ComponentBlock extends BlockBase implements FrameworkAwareBlockIn
       // @todo Is there anything else unique to key off of besides uuid
       $attached['drupalSettings']['component']['configuration'][$this->configuration['uuid']] = $this->configuration['component_configuration'];
     }
-    return array(
+    return [
       '#attached' => $attached,
-    );
+    ];
   }
 
   /**
@@ -97,7 +97,7 @@ abstract class ComponentBlock extends BlockBase implements FrameworkAwareBlockIn
    * {@inheritdoc}
    */
   public function attachFramework(array $component) {
-    return array();
+    return [];
   }
 
   /**
@@ -105,8 +105,8 @@ abstract class ComponentBlock extends BlockBase implements FrameworkAwareBlockIn
    */
   public function attachLibraries(array $component) {
     // Attach the header and footer component library.
-    $path   = 'component/' . $component['machine_name'];
-    $component_libraries = array();
+    $path                = 'component/' . $component['machine_name'];
+    $component_libraries = [];
 
     if (isset($component['add_css']['header']) || isset($component['add_js']['header'])) {
       $component_libraries[] = $path . '/header';
@@ -124,12 +124,12 @@ abstract class ComponentBlock extends BlockBase implements FrameworkAwareBlockIn
    */
   public function attachSettings(array $component) {
     if (isset($component['settings'])) {
-      return array(
+      return [
         'drupalSettings' => $component['settings'],
-      );
+      ];
     }
     else {
-      return array();
+      return [];
     }
   }
 
@@ -137,7 +137,7 @@ abstract class ComponentBlock extends BlockBase implements FrameworkAwareBlockIn
    * {@inheritdoc}
    */
   public function attachPageHeader(array $component) {
-    return array();
+    return [];
   }
 
   /**
@@ -237,7 +237,7 @@ abstract class ComponentBlock extends BlockBase implements FrameworkAwareBlockIn
    * @return array
    *   Form elements.
    */
-  protected function createElementsFromConfiguration($configuration, FormStateInterface $form_state) {
+  protected function createElementsFromConfiguration(array $configuration, FormStateInterface $form_state) {
     $elements = [];
     $defaults = (!empty($this->configuration['component_configuration'])) ?
       $this->configuration['component_configuration'] : [];
