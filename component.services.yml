@@ -1,0 +1,7 @@
+services:
+  component.component_discovery:
+    class: '\Drupal\component\ComponentDiscovery'
+    arguments:
+      - '@app.root'
+      - '@module_handler'
+      - '@info_parser'

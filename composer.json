@@ -1,0 +1,21 @@
+{
+  "name": "drupal/component",
+  "description": "Easy add JS components to Drupal as blocks, with only a single yml file. Forked from the PDB module (mrjmd/decoupled_blocks)",
+  "type": "drupal-module",
+  "homepage": "https://drupal.org/project/component",
+  "authors": [
+    {
+      "name": "Ron Northcutt (rlnorthcutt)",
+      "homepage": "https://www.drupal.org/u/rlnorthcutt",
+      "role": "Maintainer"
+    }
+  ],
+  "support": {
+    "issues": "https://drupal.org/project/issues/component",
+    "source": "https://git.drupalcode.org/project/component"
+  },
+  "license": "GPL-2.0-or-later",
+  "minimum-stability": "dev",
+  "require": {
+  }
+}

@@ -1,0 +1,5 @@
+name: Component
+type: module
+description: 'Easily add JS components to Drupal as blocks, with only a single yml file.'
+package: Component
+core: '8.x'
