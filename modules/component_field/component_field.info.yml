@@ -1,0 +1,7 @@
+name: Component field
+type: module
+description: 'Provides a field for selecting and rendering a component.'
+package: Component
+core: '8.x'
+dependencies:
+  - component
