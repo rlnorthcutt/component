@@ -2,6 +2,6 @@ name: Component field
 type: module
 description: 'Provides a field for selecting and rendering a component.'
 package: Component
-core: '8.x'
+core_version_requirement: ^8 || ^9
 dependencies:
   - component
