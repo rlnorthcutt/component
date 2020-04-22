@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\react_block\Plugin\Field\FieldType;
+namespace Drupal\component_field\Plugin\Field\FieldType;
 
 use Drupal\Core\Field\FieldItemBase;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
@@ -9,18 +9,18 @@ use Drupal\Core\TypedData\OptionsProviderInterface;
 use Drupal\Core\Session\AccountInterface;
 
 /**
- * Defines the 'react_block' field type.
+ * Defines the 'component_field' field type.
  *
  * @FieldType(
- *   id = "react_block",
- *   label = @Translation("React block"),
- *   description = @Translation("React component printed as entity field."),
+ *   id = "component_field",
+ *   label = @Translation("Component"),
+ *   description = @Translation("A component printed as entity field."),
  *   category = @Translation("Reference"),
- *   default_widget = "react_block_options",
+ *   default_widget = "component_field_options",
  *   default_formatter = "text_default",
  * )
  */
-class ReactBlock extends FieldItemBase implements OptionsProviderInterface {
+class ComponentField extends FieldItemBase implements OptionsProviderInterface {
 
   private $options = NULL;
 
@@ -29,7 +29,7 @@ class ReactBlock extends FieldItemBase implements OptionsProviderInterface {
    */
   public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
     $properties['value'] = DataDefinition::create('string')
-      ->setLabel(t('React block'));
+      ->setLabel(t('Component field'));
     return $properties;
   }
 
@@ -101,9 +101,12 @@ class ReactBlock extends FieldItemBase implements OptionsProviderInterface {
 
     $this->options = [];
 
-    $components = \Drupal::service('pdb.component_discovery')->getComponents();
+    $components = \Drupal::service('component.component_discovery')->getComponents();
+
     foreach ($components as $block_id => $block_info) {
-      $this->options[$block_id] = $block_info->info['name'];
+      if ($block_info->info['enable_field']) {
+        $this->options[$block_id] = $block_info->info['name'];
+      }
     }
 
     return $this->options;
