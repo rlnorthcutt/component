@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\react_block\Plugin\Field\FieldWidget;
+namespace Drupal\component_field\Plugin\Field\FieldWidget;
 
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
@@ -10,17 +10,17 @@ use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * A widget to input video URLs.
+ * A widget for a Component field.
  *
  * @FieldWidget(
- *   id = "react_block_options",
- *   label = @Translation("React Blocks"),
+ *   id = "component_field_options",
+ *   label = @Translation("Component"),
  *   field_types = {
- *     "react_block"
+ *     "component_field"
  *   },
  * )
  */
-class ReactBlockOptions extends WidgetBase {
+class ComponentFieldOptions extends WidgetBase {
 
   protected $column;
 
