@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\react_block\Plugin\Field\FieldFormatter;
+namespace Drupal\component_field\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Field\FieldItemListInterface;
@@ -9,16 +9,16 @@ use Drupal\Core\Field\FieldItemListInterface;
  * Plugin implementation of the thumbnail field formatter.
  *
  * @FieldFormatter(
- *   id = "react_block_formatter",
- *   label = @Translation("React Block Formatter"),
+ *   id = "component_field_formatter",
+ *   label = @Translation("Component"),
  *   field_types = {
- *     "react_block"
+ *     "component_field"
  *   }
  * )
  */
-class ReactBlockFormatter extends FormatterBase {
+class ComponentFieldFormatter extends FormatterBase {
 
-  const MODULE_NAME = 'react_block';
+  const MODULE_NAME = 'component_field';
 
   /**
    * {@inheritdoc}
