@@ -10,11 +10,16 @@ use Drupal\component\FrameworkAwareBlockInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class ComponentBlock.
+ * Exposes a Component as a block.
  *
- * @package Drupal\component\Plugin\Block
+ * @Block(
+ *   id = "component",
+ *   admin_label = @Translation("Component"),
+ *   deriver = "\Drupal\component\Plugin\Derivative\ComponentBlockDeriver"
+ * )
  */
-abstract class ComponentBlock extends BlockBase implements FrameworkAwareBlockInterface, ContainerFactoryPluginInterface {
+
+class ComponentBlock extends BlockBase implements FrameworkAwareBlockInterface, ContainerFactoryPluginInterface {
 
   /**
    * ComponentBlock constructor.
@@ -46,7 +51,20 @@ abstract class ComponentBlock extends BlockBase implements FrameworkAwareBlockIn
    */
   public function build() {
     $component = $this->getComponentInfo();
-    $this->configuration['uuid'] = \Drupal::service('uuid')->generate();
+    $machine_name = $component['machine_name'];
+    $content_config = $component['content_configuration'];
+
+    $data_values = [];
+
+    if (array_key_exists('block_data_output', $content_config)) {
+      $data_values = $content_config['block_data_output'];
+    }
+
+    $markup = $this->buildMarkup($machine_name, $data_values);
+    $build['#allowed_tags'] = ['div'];
+    $build['#markup'] = $markup;
+
+    $build['#cache'] = ['max-age' => 0];
 
     $attached = [];
 
@@ -62,7 +80,7 @@ abstract class ComponentBlock extends BlockBase implements FrameworkAwareBlockIn
 
     $libraries = $this->attachLibraries($component);
     if ($libraries) {
-      $attached = array_merge_recursive($attached, $libraries);
+      $attached_libraries = array_merge_recursive($attached, $libraries);
     }
 
     $header = $this->attachPageHeader($component);
@@ -70,16 +88,10 @@ abstract class ComponentBlock extends BlockBase implements FrameworkAwareBlockIn
       $attached = array_merge_recursive($attached, $header);
     }
 
-    if ($contexts = $this->getContexts()) {
-      $attached['drupalSettings']['component']['contexts'] = $this->getJsContexts($contexts);
-    }
-    if (isset($this->configuration['component_configuration'])) {
-      // @todo Is there anything else unique to key off of besides uuid
-      $attached['drupalSettings']['component']['configuration'][$this->configuration['uuid']] = $this->configuration['component_configuration'];
-    }
-    return [
-      '#attached' => $attached,
-    ];
+    $build['#attached']['library'] = $attached_libraries;
+
+    return $build;
+
   }
 
   /**
@@ -138,6 +150,30 @@ abstract class ComponentBlock extends BlockBase implements FrameworkAwareBlockIn
    */
   public function attachPageHeader(array $component) {
     return [];
+  }
+
+  /**
+   * Builds markup to be returned to block form api.
+   *
+   * @param string $machine_name
+   *   The machine name of the block.
+   * @param array $data_values
+   *   The data values to be placed in html 5 data attribute.
+   *
+   * @return markup
+   *   returns the markup.
+   */
+  private function buildMarkup($machine_name, array $data_values) {
+    $uuid = \Drupal::service('uuid')->generate();
+    $markup = '<div id="' . $machine_name .  $uuid . '" class="' . $machine_name . '" ';
+
+    foreach ($data_values as $key => $value) {
+      $markup .= 'data-' . str_replace('_', '-', $key) . '="' . $value . '" ';
+    }
+
+    $markup .='></div>';
+
+    return $markup;
   }
 
   /**
