@@ -230,7 +230,7 @@ class ComponentBlock extends BlockBase implements FrameworkAwareBlockInterface, 
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
-    $form['component_configuration'] = $this->buildComponentSettingsForm($form_state);
+    $form['form_configuration'] = $this->buildComponentFormSettingsForm($form_state);
 
     return $form;
   }
@@ -240,20 +240,23 @@ class ComponentBlock extends BlockBase implements FrameworkAwareBlockInterface, 
    */
   public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
     parent::submitConfigurationForm($form, $form_state);
-    $this->configuration['component_configuration'] = $form_state->getValue('component_configuration');
+    $this->configuration['form_configuration'] = $form_state->getValue('form_configuration');
   }
 
   /**
-   * Build settings component settings form.
+   * Build settings form configuration settings form.
    *
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The form state array.
+   *
+   *  @return array
+   *   Form elements.
    */
-  protected function buildComponentSettingsForm(FormStateInterface $form_state) {
+  protected function buildComponentFormSettingsForm(FormStateInterface $form_state) {
     $definition = $this->getPluginDefinition();
     $elements = [];
-    if (isset($definition['info']['configuration'])) {
-      $elements = $this->createElementsFromConfiguration($definition['info']['configuration'], $form_state);
+    if (isset($definition['info']['form_configuration'])) {
+      $elements = $this->createElementsFromFormConfiguration($definition['info']['form_configuration'], $form_state);
       $elements['#title'] = $this->t('Component Settings');
       $elements['#type'] = 'details';
       $elements['#open'] = TRUE;
@@ -273,10 +276,10 @@ class ComponentBlock extends BlockBase implements FrameworkAwareBlockInterface, 
    * @return array
    *   Form elements.
    */
-  protected function createElementsFromConfiguration(array $configuration, FormStateInterface $form_state) {
+  protected function createElementsFromFormConfiguration(array $configuration, FormStateInterface $form_state) {
     $elements = [];
-    $defaults = (!empty($this->configuration['component_configuration'])) ?
-      $this->configuration['component_configuration'] : [];
+    $defaults = (!empty($this->configuration['form_configuration'])) ?
+      $this->configuration['form_configuration'] : [];
     foreach ($configuration as $key => $setting) {
       $element = [];
       foreach ($setting as $property_key => $property) {
