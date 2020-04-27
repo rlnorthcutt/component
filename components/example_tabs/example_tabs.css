@@ -1,0 +1,111 @@
+:root {
+  --grey-600: #222222;
+  --grey-700: #181818;
+  --grey-800: #151515;
+  --grey-900: #0f0f0f;
+
+  --grey-000: #fff;
+  --grey-100: #d1d1d1;
+  --grey-200: #bababa;
+
+  --red-500: #d93636;
+
+  --standard-curve: cubic-bezier(0.4, 0, 0.2, 1);
+  --deceleration-curve: cubic-bezier(0, 0, 0.2, 1);
+  --acceleration-curve: cubic-bezier(0.4, 0, 1, 1);
+  --sharp-curve: cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.example_tabs {
+  padding: 2em 0;
+  box-sizing: border-box;
+}
+
+.example_tabs pre {
+  color: var(--grey-000)!important;
+  margin: 1em 0;
+  padding: 1em;
+  background: var(--grey-700);
+  border: 1px solid var(--grey-900);
+  border-radius: 2px;
+  font-family: monospace;
+}
+.example_tabs .run {
+  display: table;
+  font-size: .9em;
+  padding: .2em 1em;
+  border: 2px solid var(--grey-900);
+  cursor: pointer;
+}
+
+.example_tabs li {
+  list-style: none;
+}
+
+.example_tabs a {
+  display: block;
+  margin-top: 1em;
+}
+
+/* TAB STYLE */
+.example_tabs tab-container {
+  display: flex;
+  flex-direction: column;
+}
+.example_tabs tab-header {
+  display: flex;
+  margin-bottom: 12px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+.example_tabs tab-header-item {
+  position: relative;
+  padding: 6px 8px 6px;
+  min-width: 8em;
+  text-align: center;
+}
+.example_tabs tab-header-item::before,
+.example_tabs tab-header-item::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 100;
+  border: 0px solid var(--grey-900);
+  transition: transform 0.2s cubic-bezier(1, 0.6, 0, 1);
+}
+.example_tabs tab-header-item::before {
+  bottom: 2px;
+  border-width: 2px 0 0;
+  transform: translateY(100%);
+}
+.example_tabs tab-header-item::after {
+  right: -1px;
+  left: -1px;
+  border-width: 0 2px;
+  transform-origin: center bottom;
+  transform: scaleY(0);
+}
+.example_tabs tab-header-item.tab-active::before {
+  transform: translateY(0);
+  transition-timing-function: cubic-bezier(1, 0.6, 0, 1.22);
+}
+.example_tabs tab-header-item.tab-active::after {
+  transform: scaleY(1);
+  transition-timing-function: cubic-bezier(1, 0.6, 0, 1.22);
+}
+.example_tabs tab-body {
+  position: relative;
+  display: flex;
+  flex-flow: row warp;
+  flex: 1;
+  overflow-x: hidden;
+  width: 100%;
+}
+.example_tabs tab-body-item {
+  min-width: 100%;
+  transition: transform 0.2s cubic-bezier(1, 0.6, 0, 1);
+}

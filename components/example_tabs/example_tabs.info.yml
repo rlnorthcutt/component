@@ -1,0 +1,26 @@
+name: Example Tabs
+machine_name: example_tabs
+type: component
+description: 'Example tabs'
+# version: '1.0.0'
+core: '8.x'
+module_status: active
+enable_field: true
+content_configuration:
+  block_data_output:
+    tab1: 'Info'
+    tab2: 'Code'
+    tab3: 'Links'
+form_configuration:
+  text:
+    type: textfield
+    title: 'Tab 4'
+    default_value: 'Example'
+add_js:
+  footer:
+    'example_tabs.js': {}
+add_css:
+  header:
+    component:
+      'example_tabs.css': {}
+add_template: 'example_tabs.htm'
