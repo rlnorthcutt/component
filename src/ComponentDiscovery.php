@@ -65,6 +65,9 @@ class ComponentDiscovery extends ExtensionDiscovery implements ComponentDiscover
       $component->info = $this->infoParser->parse($component->getPathname());
       // Merge in defaults and save.
       $components[$key]->info = $component->info + $defaults;
+      // Add path info.
+      $components[$key]->info['path'] = $component->subpath;
+
     }
     $this->moduleHandler->alter('component_info', $components);
 
