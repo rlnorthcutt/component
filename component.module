@@ -6,6 +6,19 @@
  */
 
 /**
+ * Implements hook_theme() for Component templates.
+ */
+function component_theme() {
+  return [
+    'component_html' => [
+      'variables' => [
+        'html_template' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
  * Implements hook_library_info_build().
  */
 function component_library_info_build() {

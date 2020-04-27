@@ -51,47 +51,15 @@ class ComponentBlock extends BlockBase implements FrameworkAwareBlockInterface, 
    */
   public function build() {
     $component = $this->getComponentInfo();
-    $machine_name = $component['machine_name'];
-    $content_config = $component['content_configuration'];
 
-    $data_values = [];
-
-    if (array_key_exists('block_data_output', $content_config)) {
-      $data_values = $content_config['block_data_output'];
-    }
-
-    $markup = $this->buildMarkup($machine_name, $data_values);
-    $build['#allowed_tags'] = ['div'];
-    $build['#markup'] = $markup;
-
+    $build['#theme'] = 'component_html';
+    $build['#prefix'] = $this->buildPrefix($component);
+    $build['#html_template'] = $this->getTemplate($component);
+    $build['#suffix'] = '</div>';
+    $build['#attached']['library'] = $this->getAttached($component);
     $build['#cache'] = ['max-age' => 0];
 
-    $attached = [];
-
-    $framework = $this->attachFramework($component);
-    if ($framework) {
-      $attached = array_merge_recursive($attached, $framework);
-    }
-
-    $settings = $this->attachSettings($component);
-    if ($settings) {
-      $attached = array_merge_recursive($attached, $settings);
-    }
-
-    $libraries = $this->attachLibraries($component);
-    if ($libraries) {
-      $attached_libraries = array_merge_recursive($attached, $libraries);
-    }
-
-    $header = $this->attachPageHeader($component);
-    if ($header) {
-      $attached = array_merge_recursive($attached, $header);
-    }
-
-    $build['#attached']['library'] = $attached_libraries;
-
     return $build;
-
   }
 
   /**
@@ -153,27 +121,63 @@ class ComponentBlock extends BlockBase implements FrameworkAwareBlockInterface, 
   }
 
   /**
-   * Builds markup to be returned to block form api.
-   *
-   * @param string $machine_name
-   *   The machine name of the block.
-   * @param array $data_values
-   *   The data values to be placed in html 5 data attribute.
-   *
-   * @return markup
-   *   returns the markup.
+   * {@inheritdoc}
    */
-  private function buildMarkup($machine_name, array $data_values) {
-    $uuid = \Drupal::service('uuid')->generate();
-    $markup = '<div id="' . $machine_name .  $uuid . '" class="' . $machine_name . '" ';
+  private function getAttached(array $component) {
+    $attached = [];
 
-    foreach ($data_values as $key => $value) {
-      $markup .= 'data-' . str_replace('_', '-', $key) . '="' . $value . '" ';
+    $framework = $this->attachFramework($component);
+    if ($framework) {
+      $attached = array_merge_recursive($attached, $framework);
     }
 
-    $markup .='></div>';
+    $settings = $this->attachSettings($component);
+    if ($settings) {
+      $attached = array_merge_recursive($attached, $settings);
+    }
 
-    return $markup;
+    $libraries = $this->attachLibraries($component);
+    if ($libraries) {
+      $attached = array_merge_recursive($attached, $libraries);
+    }
+
+    $header = $this->attachPageHeader($component);
+    if ($header) {
+      $attached = array_merge_recursive($attached, $header);
+    }
+    return $attached;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  private function getTemplate(array $component) {
+    if (isset($component['add_template'])) {
+      return file_get_contents($component['path'] . '/' . $component['add_template']);
+    } else {
+      return file_get_contents($component['path'] . '/index.htm');
+    }
+
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  private function buildPrefix(array $component) {
+    $content_config = $component['content_configuration'];
+    $uuid = \Drupal::service('uuid')->generate();
+
+    $prefix = '<div id="' . $component['machine_name'] .  $uuid . '" class="' . $component['machine_name'] . '" ';
+
+    $data_values = [];
+    if (isset($content_config['block_data_output'])) {
+      $data_values = $content_config['block_data_output'];
+      foreach ($data_values as $key => $value) {
+        $prefix .= 'data-' . str_replace('_', '-', $key) . '="' . $value . '" ';
+      }
+    }
+
+    return $prefix;
   }
 
   /**
