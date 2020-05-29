@@ -1,19 +1,20 @@
 <tab-container>
   <tab-header>
-    <tab-header-item class="tab-active">Info</tab-header-item>
-    <tab-header-item>Code</tab-header-item>
-    <tab-header-item>Links</tab-header-item>
+    <tab-header-item id='tab1'class="tab-active">Tab1</tab-header-item>
+    <tab-header-item id='tab2'>Tab2</tab-header-item>
+    <tab-header-item id='tab3'>Tab3</tab-header-item>
+    <tab-header-item id='tab4'>Tab4</tab-header-item>
   </tab-header>
   <tab-body>
     <tab-body-item>
-      <h1>Custom Elements</h1>
+      <h3>Custom Elements</h3>
       <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
     </tab-body-item>
     <tab-body-item>
-      <h1>Test the select function</h1>
+      <h3>Test the select function</h3>
       <pre contentEditable>const tab = document.querySelector('tab-container');
-tab.select(2);
-</pre>
+                           tab.select(2);
+      </pre>
       <div class="run">Run</div>
     </tab-body-item>
     <tab-body-item>
@@ -24,6 +25,9 @@ tab.select(2);
         <li><a target="_blank" href="https://codepen.io/Chmood/pen/WNbaXeO">This example on CodePen.</a></li>
 
       </ul>
+    </tab-body-item>
+    <tab-body-item>
+      <h3>Sample data</h3>
     </tab-body-item>
   </tab-body>
 </tab-container>

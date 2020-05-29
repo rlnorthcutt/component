@@ -1,0 +1,7 @@
+name: Component samples
+type: module
+description: 'Provides some sample components for testing and as examples.'
+package: Component
+core_version_requirement: ^8 || ^9
+dependencies:
+  - component
