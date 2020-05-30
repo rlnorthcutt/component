@@ -2,9 +2,8 @@ name: Example Tabs
 machine_name: example_tabs
 type: component
 description: 'Example tabs'
-# version: '1.0.0'
-core: '8.x'
-module_status: active
+core_version_requirement: ^8 || ^9
+module: 'component_samples'
 enable_field: true
 content_configuration:
   tab1: 'Info'

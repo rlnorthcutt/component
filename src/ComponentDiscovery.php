@@ -48,27 +48,33 @@ class ComponentDiscovery extends ExtensionDiscovery implements ComponentDiscover
    * {@inheritdoc}
    */
   public function getComponents() {
-    // Find components.
+    // Find component info.yml files.
     $components = $this->scan('component');
-
-    // Set defaults for module info.
+    // Set defaults for component info.
     $defaults = [
       'dependencies' => [],
       'description' => '',
-      'package' => 'Other',
+      'package' => 'Component',
       'version' => NULL,
+      'core' => '8.x',
+      'core_version_requirement' => '^8 || ^9'
     ];
-
-    // Read info files for each module.
+    // Process each component
     foreach ($components as $key => $component) {
-      // Look for the info file.
+      // Read the info file.
       $component->info = $this->infoParser->parse($component->getPathname());
-      // Merge in defaults and save.
-      $components[$key]->info = $component->info + $defaults;
-      // Add path info.
+      // Set the defaults and add the path info.
+      $components[$key]->info = array_merge($defaults, $component->info);
       $components[$key]->info['path'] = $component->subpath;
-
+      // Remove if they have an unmet module dependency.
+      if (isset($component->info['module'])) {
+        $modulename = $component->info['module'];
+        if (!\Drupal::moduleHandler()->moduleExists($modulename)) {
+          unset($components[$key]);
+        }
+      }
     }
+    // Register the components.
     $this->moduleHandler->alter('component_info', $components);
 
     return $components;
