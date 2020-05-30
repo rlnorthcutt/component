@@ -28,19 +28,26 @@ function component_theme() {
 function component_library_info_build() {
   $libraries = [];
 
+  // Get a list of all components
   $discovery = \Drupal::service('component.component_discovery');
   $components = $discovery->getComponents();
 
+  // Build the library registry for each component
   foreach ($components as $component) {
     $info = $component->info;
     $path = $component->subpath;
-    $libraries[$info['machine_name']]  = [
-      'js' =>  _component_build_library($info['js'], $path),
-      'css' => [
-        'component' => _component_build_library($info['css'], $path),
-      ],
-      'dependencies' =>  $info['dependencies']
-    ];
+    // Build the library array from the config
+    $lib = [];
+    if (isset($info['js'])) {
+      $lib['js'] =  _component_build_library($info['js'], $path);
+    }
+    if (isset($info['css'])) {
+      $lib['css']['component'] =  _component_build_library($info['css'], $path);}
+    if (isset($info['dependencies'])) {
+      $lib['dependencies'] = $info['dependencies'];
+    }
+    // Add the library to the registry
+    $libraries[$info['machine_name']] = $lib;
   }
 
   return $libraries;
@@ -59,7 +66,6 @@ function _component_build_library($assets, $path) {
     else {
       $asset_path = '/' . $path . '/' . $asset_file;
     }
-
     $processed[$asset_path] = $asset_data;
   }
 

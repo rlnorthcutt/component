@@ -1,0 +1,44 @@
+name: Example Config
+machine_name: example_config
+type: component
+description: 'Example component showing the form config options available'
+# version: '1.0.0'
+core: '8.x'
+module_status: active
+enable_field: true
+form_configuration:
+  name:
+    type: textfield
+    title: 'Name'
+    default_value: 'Alex'
+  greeting:
+    type: select
+    title: "Greeting"
+    options:
+      'other': 'Other'
+      'dr': 'Dr'
+      'mr': 'Mr'
+      'ms': 'Ms'
+      'mrs': 'Mrs'
+  active:
+    type: radio
+    title: 'Active'
+  interests:
+    type: checkboxes
+    title: 'Interests'
+    options:
+      'music': 'Music'
+      'art': 'Art'
+      'sports': 'Sports'
+      'games': 'Games'
+      'books': 'Books'
+  favcolor:
+    type: color
+    title: 'Favorite color'
+  date:
+    type: date
+    title: 'Birthday'
+js:
+  nofile.js: {}
+cache:
+  max-age: 60

@@ -10,6 +10,7 @@ content_configuration:
   tab1: 'Info'
   tab2: 'Code'
   tab3: 'Links'
+#https://api.drupal.org/api/drupal/elements/
 form_configuration:
   tab4:
     type: textfield
@@ -20,3 +21,10 @@ js:
 css:
   'example_tabs.css' : {}
 template: 'example_tabs.htm'
+# https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Render!theme.api.php/group/theme_render/8.2.x#sec_caching
+cache:
+  max-age: 60
+# dependencies:
+#  - core/jquery
+#  - module/library
+
