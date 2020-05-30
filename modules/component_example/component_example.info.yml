@@ -1,0 +1,7 @@
+name: Component example
+type: module
+description: 'An example module with some sample components for reference.'
+package: Component
+core_version_requirement: ^8 || ^9
+dependencies:
+  - component

@@ -57,9 +57,9 @@ class ComponentDiscovery extends ExtensionDiscovery implements ComponentDiscover
       'package' => 'Component',
       'version' => NULL,
       'core' => '8.x',
-      'core_version_requirement' => '^8 || ^9'
+      'core_version_requirement' => '^8 || ^9',
     ];
-    // Process each component
+    // Process each component.
     foreach ($components as $key => $component) {
       // Read the info file.
       $component->info = $this->infoParser->parse($component->getPathname());
