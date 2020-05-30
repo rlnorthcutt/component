@@ -20,6 +20,3 @@ js:
 css:
   'example_tabs.css' : {}
 template: 'example_tabs.htm'
-dependencies:
-  - core/jquery
-  - core/jquery.ui

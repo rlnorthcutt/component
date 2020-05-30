@@ -1,51 +1,48 @@
-/* This needs to possibly put into a drupal behavior */
+/**
+ * Example tab custom element. This uses vanilla JS to create a tabbed
+ *   container. Note that this is not wrapped in a behavior because it
+ *   is a self contained custom element that is only rendered when needed.
+ **/
 
-/* TAB CODE */
 class TabContainer extends HTMLElement {
 
   /**
   * Custom element constructor.
-  * @todo rewrite this to use more jquery and be simpler
   */
   constructor() {
     super();
+    // Get the config items from Drupal that are passed as data attributes.
+    this.config = Object.assign({}, this.parentNode.dataset) ;
+    this.tabs = this.querySelectorAll('tab-header-item');
+    this.index = 0;
 
-    this._config = jQuery(this.parentNode).data();
-    this._headerItems = this.querySelectorAll('tab-header-item');
-    this._bodyItems = this.querySelectorAll('tab-body-item');
-    this._index = 0;
-
-    // Loop through the tabs
-    for (let i = 0; i < this._headerItems.length; i++) {
-      let id = this._headerItems[i].getAttribute('id');
-      this._headerItems[i].addEventListener('click', this.select.bind(this, i));
-      this._headerItems[i].innerHTML = this._config[id];
-    }
+    // Add the select to each tab and set the tab text from config.
+    this.tabs.forEach(function (tab, i) {
+      tab.innerHTML = this.config[tab.id];
+      tab.addEventListener('click', this.select.bind(this, i));
+    }, this);
   }
 
   /**
   * Tab select method
   */  
   select(index) {
-    if (this._index === index || index < 0 || index > this._headerItems.length - 1)
+    // Escape the function if needed
+    if (this.index === index || index < 0 || index > this.tabs.length - 1) {
         return;
+    }
 
-    this._headerItems[this._index].classList.remove('tab-active');
-    this._headerItems[index].classList.add('tab-active');
-    this._index = index;
+    // Change the active class and the current index
+    this.tabs[this.index].classList.remove('tab-active');
+    this.tabs[index].classList.add('tab-active');
+    this.index = index;
 
-    for(let item of this._bodyItems) {
-      item.style.transform = `translateX(${(-this._index) * 100}%)`;
+    // Move the content
+    for (let item of this.querySelectorAll('tab-body-item')) {
+      item.style.transform = `translateX(${(-this.index) * 100}%)`;
     }
   }
 
 }
 
 customElements.define('tab-container', TabContainer);
-
-
-/* Wires up the example interactions in the 2nd tab */
-const pre = document.querySelector('pre');
-document.querySelector('.run').addEventListener('click', () => {
-  eval(`(function(){ jQuery{pre.innerText} })();`);
-});
