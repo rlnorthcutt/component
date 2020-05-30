@@ -2,7 +2,6 @@
 
 namespace Drupal\component\Plugin\Derivative;
 
-use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Drupal\Core\Plugin\Context\ContextDefinition;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Drupal\component\ComponentDiscoveryInterface;

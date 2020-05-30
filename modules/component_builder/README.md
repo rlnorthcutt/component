@@ -1,6 +1,10 @@
-Placeholder for future *component_builder* module. To allow users to create simple JS components in the UI without having to commit code. Extends custom blocks with fields for css, js, and html. Registers as a component, and is available when published.
+Placeholder for future *component_builder* module. To allow users to create 
+simple JS components in the UI without having to commit code. Extends custom 
+blocks with fields for css, js, and html. Registers as a component, and is 
+available when published.
 
-Vision is to have a real time working tool similar to codepen, so you can create/test your component as you go.
+Vision is to have a real time working tool similar to codepen, so you can 
+create/test your component as you go.
 
 Fields
 - Title - text field
