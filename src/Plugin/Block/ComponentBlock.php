@@ -167,10 +167,10 @@ class ComponentBlock extends BlockBase implements ContainerFactoryPluginInterfac
    */
   protected function getComponentConfig() {
     $data = [];
-    // Add content config if it exists.
+    // Add static config if it exists.
     $component = $this->component;
-    if (isset($component['content_configuration'])) {
-      $data = $component['content_configuration'];
+    if (isset($component['static_configuration'])) {
+      $data = $component['static_configuration'];
     }
     // Add form config if it exists.
     if (isset($this->configuration['form_configuration'])) {
