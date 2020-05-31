@@ -18,8 +18,6 @@ The `info.yml` file provides the JS developer with a ton of basic configuration 
 	  widget.css: {}
 Thats it! Put that info.yml file into a directory with the widget.js and widget.css, and you now have a component.
 
-
-
 ## How it works
 We rely on the auto-discovery mechanism built into Drupal to find the `info.yml` file. This is what is able to find the modules, themes, and profiles in the codebase. We simply add a new "type" to the mix - a **component**
 
@@ -39,7 +37,7 @@ When the page loads, it has the html it needs (including custom elements) and th
 - Finish testing component field module
 
 ### Backlog
-- create some more examples - form config, backbone, react from CDN
-- create component_browser module
+- create some more examples - backbone, other core libraries
 - create component_reference module
-- create component_builder module
+- create component_browser module?
+- create component_builder module?
