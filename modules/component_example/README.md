@@ -1,4 +1,7 @@
-**Component samples**
+**Component example**
 
-This module contains a number of sample components that may be useful 
-for reference, or for a quick demo. 
+This is an example module with components that may be useful 
+for reference, testing, or for a quick demo. 
+
+##Todo
+- Add uninstall hook to remove all instances of blocks.
