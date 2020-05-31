@@ -5,3 +5,4 @@ package: Component
 core_version_requirement: ^8 || ^9
 dependencies:
   - component
+  - block_field

@@ -51,6 +51,29 @@ class ComponentField extends FieldItemBase implements OptionsProviderInterface {
   /**
    * {@inheritdoc}
    */
+  protected function getOptions() {
+    $options = [];
+    // Get a list of all components.
+    $discovery = \Drupal::service('component.component_discovery');
+    $components = $discovery->getComponents();
+    // Check each component to see if it should be listed.
+    foreach ($components as $id => $component) {
+      $is_field = isset($component->info['enable_field']);
+      $is_enabled = ($is_field) ? $component->info['enable_field'] : FALSE;
+      if ($is_enabled) {
+        $options[$id] = $component->info['name'];
+      }
+    }
+    return $options;
+  }
+
+  /**
+   * Public methods
+   */
+
+  /**
+   * {@inheritdoc}
+   */
   public function isEmpty() {
     $value = $this->get('value')->getValue();
     return $value === NULL || $value === '';
@@ -73,15 +96,15 @@ class ComponentField extends FieldItemBase implements OptionsProviderInterface {
   /**
    * {@inheritdoc}
    */
-  public function getPossibleOptions(AccountInterface $account = NULL) {
-    return $this->getOptions();
+  public function getSettableValues(AccountInterface $account = NULL) {
+    return $this->getPossibleValues();
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getSettableValues(AccountInterface $account = NULL) {
-    return $this->getPossibleValues();
+  public function getPossibleOptions(AccountInterface $account = NULL) {
+    return $this->getOptions();
   }
 
   /**
@@ -91,25 +114,5 @@ class ComponentField extends FieldItemBase implements OptionsProviderInterface {
     return $this->getPossibleOptions();
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  protected function getOptions() {
-    if (!is_null($this->options)) {
-      return $this->options;
-    }
-
-    $this->options = [];
-
-    $components = \Drupal::service('component.component_discovery')->getComponents();
-
-    foreach ($components as $block_id => $block_info) {
-      if ($block_info->info['enable_field']) {
-        $this->options[$block_id] = $block_info->info['name'];
-      }
-    }
-
-    return $this->options;
-  }
 
 }

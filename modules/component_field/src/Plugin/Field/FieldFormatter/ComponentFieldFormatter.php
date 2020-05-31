@@ -18,20 +18,19 @@ use Drupal\Core\Field\FieldItemListInterface;
  */
 class ComponentFieldFormatter extends FormatterBase {
 
-  const MODULE_NAME = 'component_field';
+  const MODULE_NAME = 'component';
 
   /**
    * {@inheritdoc}
    */
   public function viewElements(FieldItemListInterface $items, $langcode) {
     $elements = [];
-
-    foreach ($items as $delta => $item) {
+    foreach ($items as $key => $item) {
       // Get the markup from the block deriver.
       $blockManager = \Drupal::service('plugin.manager.block');
-      $content = $blockManager->createInstance(self::MODULE_NAME . ':' . $item->value)->build();
+      $component = $blockManager->createInstance(self::MODULE_NAME . ':' . $item->value)->build();
 
-      $elements[$delta] = $content;
+      $elements[$key] = $compoenent;
     }
 
     return $elements;
