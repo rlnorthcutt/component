@@ -1,3 +1,0 @@
-name = Component
-description = Helper functions to do pull-based templates and provide convenient Ajax callbacks.
-core = 6.x
