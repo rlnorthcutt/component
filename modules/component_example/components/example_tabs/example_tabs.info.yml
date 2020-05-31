@@ -8,7 +8,7 @@ core_version_requirement: ^8 || ^9
 # All compoonents are visible in the system by default.
 # Provide a module machine name to set it as a dependency. If that module is
 # not enabled, the component will not be visible in the system.
-module: 'component_samples'
+module: 'component_example'
 # Set to true if you want this component availble for component_field.
 enable_field: true
 # All component configuration is passed to the DOM as data attributes on the

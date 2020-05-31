@@ -69,7 +69,8 @@ class ComponentDiscovery extends ExtensionDiscovery implements ComponentDiscover
       // Remove if they have an unmet module dependency.
       if (isset($component->info['module'])) {
         $modulename = $component->info['module'];
-        if (!\Drupal::moduleHandler()->moduleExists($modulename)) {
+        $enabled = \Drupal::moduleHandler()->moduleExists($modulename);
+        if (!$enabled) {
           unset($components[$key]);
         }
       }
