@@ -10,14 +10,20 @@
   background-color: white;
   height:200px;
   display:flex;
-  width:280px;
+  width:100%;
+  max-width: 280px;
   justify-content:center;
   border: solid thin #ccc;
 }
 
+#example_react_calc div {
+  width: 100%;
+}
+
 #example_react_calc .calc {
   display:flex;
-  width:281px;
+  width:100%;
+  max-width:281px;
   flex-direction: column;
   align-items: center;
   margin-bottom: 0px;
@@ -30,7 +36,8 @@
 
 #example_react_calc .filter {
   display:flex;
-  width:280px;
+  width:100%;
+  max-width:280px;
   flex-direction: column;
   align-items: center;
   margin-bottom: 0px;
@@ -41,7 +48,8 @@
 
 #example_react_calc button {
   margin: 10px;
-  width:50px;
+  min-width:15%;
+  max-width:50px;
   height: 40px;
   border-radius: 0px;
   border: none;
@@ -62,22 +70,22 @@
 #example_react_calc .pad {
   display:flex;
   flex-direction:column;
-  width:330px;
+  width:100%;
+  max-width: 330px;
   align-items:center;
 }
 
 #example_react_calc .display{
   text-align:right;
-  margin: 0px 0px 10px 45px;
   font-size: 18px;
   font-family: Roboto;
   overflow: hidden;
-  width: 250px;
+  width:100%;
+  max-width: 250px;
 }
 
 #example_react_calc .result {
   text-align:right;
-  margin: 10px 35px 5px;
   font-size: 40px;
   font-family: Roboto;
   display: flex;
@@ -92,7 +100,8 @@
 #example_react_calc .return {
   background-color:#F28A4F;
   height:60px;
-  width:280px;
+  width:100%;
+  max-width:280px;
   margin: 0px;
   z-index:1;
   font-size: 30px;
@@ -126,7 +135,9 @@
   align-items:center;
   justify-content:center;
   position:relative;
-  width:330px;
+  width:100%;
+  max-width:330px;
   background-color:#424654;
   box-shadow: 4px 4px 10px -2px #000000;
+  padding: 0 1rem;
 }
