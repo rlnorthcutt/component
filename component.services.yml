@@ -1,7 +1,9 @@
 services:
-  component.component_discovery:
-    class: '\Drupal\component\ComponentDiscovery'
+  component.discovery:
+    class: \Drupal\component\ComponentDiscovery
     arguments:
       - '@app.root'
       - '@module_handler'
-      - '@info_parser'
+      - '@theme_handler'
+    tags:
+      - { name: plugin_manager_cache_clear }

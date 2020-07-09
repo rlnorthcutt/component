@@ -11,8 +11,10 @@
 function component_theme() {
   return [
     'component_html' => [
+      'render element' => 'elements',
       'variables' => [
         'html_template' => NULL,
+        'content_attributes' => NULL,
       ],
     ],
   ];
@@ -29,26 +31,25 @@ function component_library_info_build() {
   $libraries = [];
 
   // Get a list of all components.
-  $discovery = \Drupal::service('component.component_discovery');
-  $components = $discovery->getComponents();
+  $discovery = \Drupal::service('component.discovery');
+  $component_list = $discovery->getComponents();
 
-  // Build the library registry for each component.
-  foreach ($components as $component) {
-    $info = $component->info;
-    $path = $component->subpath;
-    // Build the library array from the config.
-    $lib = [];
-    if (isset($info['js'])) {
-      $lib['js'] = _component_build_library($info['js'], $path);
+  // Build the library registry for each component. We have to loop
+  // twice because they are keyed to the type of component (block, library)
+  // as well as the component machine/name.
+  foreach ($component_list as $type => $components) {
+    foreach ($components as $name => $component) {
+      // Build the library array from the config.
+      if ($component['js']) {
+        $libraries[$name]['js'] = _component_build_library($component['js'], $component['subpath']);
+      }
+      if ($component['css']) {
+        $libraries[$name]['css']['component'] = _component_build_library($component['css'], $component['subpath']);
+      }
+      if ($component['dependencies']) {
+        $libraries[$name]['dependencies'] = $component['dependencies'];
+      }
     }
-    if (isset($info['css'])) {
-      $lib['css']['component'] = _component_build_library($info['css'], $path);
-    }
-    if (isset($info['dependencies'])) {
-      $lib['dependencies'] = $info['dependencies'];
-    }
-    // Add the library to the registry.
-    $libraries[$info['machine_name']] = $lib;
   }
 
   return $libraries;
@@ -56,8 +57,14 @@ function component_library_info_build() {
 
 /**
  * Helper function to process and build library assets.
+ *
+ * @param array
+ *   The asset array for CSS or JS.
+ * @param string
+ *   The path to the component parent folder, relative to root. This is 
+ *   epected to have a forward slash at the beginning and end already.
  */
-function _component_build_library($assets, $path) {
+function _component_build_library($assets, $subpath) {
   $processed = [];
   foreach ($assets as $asset_file => $asset_data) {
     // Allow external assets to use absolute path.
@@ -65,7 +72,7 @@ function _component_build_library($assets, $path) {
       $asset_path = $asset_file;
     }
     else {
-      $asset_path = '/' . $path . '/' . $asset_file;
+      $asset_path = $subpath . $asset_file;
     }
     $processed[$asset_path] = $asset_data;
   }
