@@ -1,0 +1,49 @@
+### THESE FIELDS ARE REQUIRED. ###
+name: Example Tabs
+description: 'Example tabs'
+### THESE FIELDS ARE OPTIONAL. ###
+# Put in the way the component should be added to the system. Current
+# options are block (default) and library.
+type: block
+# Add your js and css files. Typically, this is a file included in the
+# component folder. However, it can also be an external file. For configuration
+# options, see https://www.drupal.org/docs/theming-drupal/adding-stylesheets-css-and-javascript-js-to-a-drupal-theme#libraries-options-details
+js:
+  'example_tabs.js' : {}
+css:
+  'example_tabs.css' : {}
+# Define any Drupal library dependencies. This includes all core libraries as
+# well as any module or theme libraries. If you have a common library across
+# your components (like React/Vue), then add that as a Drupal library so it can
+# be managed in a single place.
+# dependencies:
+#  - core/jquery
+#  - module/library
+# We will look for an index.htm to load as the template. If that has a different
+# name or location, then put that here.
+template: 'example_tabs.htm'
+# Set to true if you want this component availble for component_field. This is
+# false by default.
+enable_field: true
+# All component configuration is passed to the DOM as data attributes on the
+# wrapper around your component.
+# Hardcoded or static configuration can be provided to your component
+static_configuration:
+  tab1: 'Info'
+  tab2: 'Code'
+  tab3: 'Links'
+# Dynamic or form configuration can be provided by Drupal's Form API. Many of
+# the form elements can be used. See the example_config for a few examples.
+# Full list (not all are supported): https://api.drupal.org/api/drupal/elements/
+form_configuration:
+  tab4:
+    type: textfield
+    title: 'Tab 4'
+    default_value: 'Example'
+# For details on cache options see:
+# https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Render!theme.api.php/group/theme_render/8.2.x#sec_caching
+cache:
+  max-age: 60
+# Choose the type of plugin that this should be created as. For now, this 
+# module only supports blocks.
+type: 'block'

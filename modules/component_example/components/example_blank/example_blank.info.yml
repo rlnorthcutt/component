@@ -1,6 +1,0 @@
-name: Example blank
-machine_name: example_blank
-type: component
-description: 'This is a blank component for testing.'
-core_version_requirement: ^8 || ^9
-module: 'component_example'

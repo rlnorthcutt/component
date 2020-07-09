@@ -1,0 +1,12 @@
+name: Example React Calculator
+description: 'Example component using React from a CDN.'
+js:
+  example_react_calc.js: {attributes: { type: 'text/babel' }}
+  //cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js: { type: external, minified: true }
+  //cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js: { type: external, minified: true }
+  //cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js: { type: external, minified: true }
+css:
+  example_react_calc.css: {}
+cache:
+  max-age: 0
+# SOURCE: https://codepen.io/jlmortola/pen/VPYaEv
