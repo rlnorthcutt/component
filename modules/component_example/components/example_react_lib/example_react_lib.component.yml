@@ -1,0 +1,16 @@
+name: Example React Library
+description: 'Example shared library created with the component module.'
+# This component is only here to add the shared library for other components
+#   to use. This will *not* create a block or other entity in the system.
+type: 'library'
+# This is an example of using external (CDN based) JS files following the same
+#   method that Drupal core uses. The advantage to using an external file is
+#   that it doesn't need to be included in the codebase, it can be loaded faster
+#   from a different domain, and its easy to manage the version.
+# The downside to an external JS file is that it can not be used "offline" or
+#   when there isn't an internet connection.
+js:
+  //unpkg.com/react@16.7.0/umd/react.production.min.js: { type: external, minified: true, crossorigin: anonymous }
+  //unpkg.com/react-dom@16.7.0/umd/react-dom.production.min.js: { type: external, minified: true, crossorigin: anonymous }
+  //unpkg.com/create-react-class@15.6.0/create-react-class.min.js : { type: external, minified: true, crossorigin: anonymous }
+  //unpkg.com/babel-standalone@6/babel.min.js: { type: external, minified: true, crossorigin: anonymous }

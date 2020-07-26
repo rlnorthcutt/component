@@ -1,4 +1,4 @@
-var Calc = React.createClass({
+let Calc = createReactClass({
 
   getInitialState: function () {
     return {
@@ -13,9 +13,9 @@ var Calc = React.createClass({
   },
 
   render: function () {
-    var result = this.state.result;
-    var display = this.state.display;
-    var decimals = this.state.decimals;
+    let result = this.state.result;
+    let display = this.state.display;
+    let decimals = this.state.decimals;
 
     return (
       <div>
@@ -28,14 +28,14 @@ var Calc = React.createClass({
   }
 });
 
-var op = []; //array for storing numbers
-var decimal = true; // to access decimal dot
+let op = []; //array for storing numbers
+let decimal = true; // to access decimal dot
 
-var Nums = React.createClass({
+let Nums = createReactClass({
 
   pusher: function (event) { //will add the button value to op
     event.preventDefault();
-    var num = event.target.value;
+    let num = event.target.value;
 
     if (op.length <= 23) {
       op += num;
@@ -48,8 +48,8 @@ var Nums = React.createClass({
 
   pusher2: function (event) { // to only have 1 operation chained
     event.preventDefault();
-    var num = event.target.value;
-    var last = op.charAt(op.length - 1);
+    let num = event.target.value;
+    let last = op.charAt(op.length - 1);
 
     if (op.length <= 23) {
 
@@ -66,7 +66,7 @@ var Nums = React.createClass({
 
   pusher3: function (event) {
     event.preventDefault();
-    var num = event.target.value;
+    let num = event.target.value;
     if (op.length <= 23) {
       op += num;
       op = op.replace(/\-+/g, '-')
@@ -80,7 +80,7 @@ var Nums = React.createClass({
 
   pusher4: function (event) { // function for the '.'
     event.preventDefault();
-    var num = event.target.value;
+    let num = event.target.value;
     if (op.length <= 23) {
       if (decimal) {
         op += num;
@@ -97,8 +97,8 @@ var Nums = React.createClass({
   result: function (event) { // will execute the operation inside op
     event.preventDefault();
 
-    var result = eval(op).toFixed(2);
-    var ind = result.indexOf('.');
+    let result = eval(op).toFixed(2);
+    let ind = result.indexOf('.');
 
     if (String(result).length <= 11) {
       this.props.setResult({
@@ -121,7 +121,7 @@ var Nums = React.createClass({
 
   delete: function (event) {
     event.preventDefault();
-    var test = false; // to test if im next to delete a '.'
+    let test = false; // to test if im next to delete a '.'
     op = op.slice(0, -1);
     this.props.setResult({ display: op })
     console.log(op.indexOf(op.length));
@@ -182,7 +182,7 @@ var Nums = React.createClass({
   }
 });
 
-var Display = React.createClass({
+let Display = createReactClass({
   render: function () {
     return (
       <div className="display">
@@ -193,7 +193,7 @@ var Display = React.createClass({
 });
 
 
-var Result = React.createClass({
+let Result = createReactClass({
   render: function () {
     return (
       <div className='result'>
@@ -204,7 +204,7 @@ var Result = React.createClass({
   }
 });
 
-var Footer = React.createClass({
+let Footer = createReactClass({
   render: function () {
     return (
       <div className="footer"></div>
