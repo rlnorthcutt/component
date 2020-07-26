@@ -4,7 +4,7 @@ description: 'Example tabs'
 ### THESE FIELDS ARE OPTIONAL. ###
 # Put in the way the component should be added to the system. Current
 # options are block (default) and library.
-type: block
+type: 'block'
 # Add your js and css files. Typically, this is a file included in the
 # component folder. However, it can also be an external file. For configuration
 # options, see https://www.drupal.org/docs/theming-drupal/adding-stylesheets-css-and-javascript-js-to-a-drupal-theme#libraries-options-details
@@ -44,6 +44,3 @@ form_configuration:
 # https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Render!theme.api.php/group/theme_render/8.2.x#sec_caching
 cache:
   max-age: 60
-# Choose the type of plugin that this should be created as. For now, this 
-# module only supports blocks.
-type: 'block'
