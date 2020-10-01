@@ -32,9 +32,6 @@ When the page loads, it has the html it needs (including custom elements) and th
 
 ## Todo
 
-### For GA
-- Entity config in component field
-- Finish testing component field module
 
 ### Backlog
 - create some more examples - backbone, other core libraries
