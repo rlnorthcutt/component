@@ -37,7 +37,7 @@ function component_library_info_build() {
   // Build the library registry for each component. We have to loop
   // twice because they are keyed to the type of component (block, library)
   // as well as the component machine/name.
-  foreach ($component_list as $type => $components) {
+  foreach ($component_list as $components) {
     foreach ($components as $name => $component) {
       // Build the library array from the config.
       if ($component['js']) {

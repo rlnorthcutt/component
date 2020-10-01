@@ -154,7 +154,7 @@ class ComponentDiscovery implements ComponentDiscoveryInterface {
   protected function scan() {
     $filepaths = [];
     // Scan in the proper directories for components.
-    foreach ($this->getSearchDirs() as $key => $dir) {
+    foreach ($this->getSearchDirs() as $dir) {
       // Check for any component yml files, and store their filepath.
       if ($component_files = $this->scanDirectory($dir)) {
         $filepaths += $component_files;
@@ -273,7 +273,7 @@ class ComponentDiscovery implements ComponentDiscoveryInterface {
     $iterator = new \RecursiveIteratorIterator($filter, \RecursiveIteratorIterator::LEAVES_ONLY, \RecursiveIteratorIterator::CATCH_GET_CHILD);
 
     // Loop through the files found in directory and all valid subdirectories.
-    foreach ($iterator as $key => $fileinfo) {
+    foreach ($iterator as $fileinfo) {
       // If this isn't a valid component file, then go check the next one.
       if (!preg_match(static::PHP_FUNCT_PATTERN, $fileinfo
         ->getBasename('.component.yml'))) {
