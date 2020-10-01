@@ -55,7 +55,7 @@ class RecursiveComponentFilterIterator extends \RecursiveFilterIterator {
   /**
    * Construct a RecursiveComponentFilterIterator.
    *
-   * @param \RecursiveIterator $iterator
+   * @param \RecursiveDirectoryIterator $iterator
    *   The iterator to filter.
    * @param array $blocklist
    *   (optional) Add to the blocklist of directories that should be filtered

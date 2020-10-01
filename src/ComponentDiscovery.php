@@ -101,8 +101,9 @@ class ComponentDiscovery implements ComponentDiscoveryInterface {
   }
 
   /**
-   * Look through the codebase to find and load the components. This is the ONLY
-   * public method available via this service.
+   * Look through the codebase to find and load the components.
+   *
+   * This is the ONLY public method available via this service.
    *
    * @return array
    *   A multidimensional array keyed by the component type first, then by
@@ -138,13 +139,14 @@ class ComponentDiscovery implements ComponentDiscoveryInterface {
   }
 
   /**
-   * Discovers all of the component Yaml files in the system. This will
-   *  look in all enambled modules and themes for a "component" subdirectory.
-   *  Then it will check that directory and all subdirectories for component
-   *  Yaml files.
+   * Discovers all of the component Yaml files in the system.
+   *
+   * This will look in all enambled modules and themes for a "component"
+   *  subdirectory. Then it will check that directory and all subdirectories
+   *  for component Yaml files.
    *
    * The information is returned in an associative array, keyed by the component
-   * name (without .component.yml extension).
+   *  name (without .component.yml extension).
    *
    * @return array
    *   Array of file paths for component.yml files keyed by machine name.
@@ -164,8 +166,10 @@ class ComponentDiscovery implements ComponentDiscoveryInterface {
   }
 
   /**
-   * Generate an array of directories to search in for components. We want to
-   * only look in the "components" folder of any activated modules or themes.
+   * Generate an array of directories to search in for components.
+   *
+   * We want to only look in the "components" folder of any activated module
+   *  or themes.
    *
    * @return array
    *   Array of paths with a "components" directory in the root.
