@@ -61,7 +61,7 @@ function component_library_info_build() {
  * @param array
  *   The asset array for CSS or JS.
  * @param string
- *   The path to the component parent folder, relative to root. This is 
+ *   The path to the component parent folder, relative to root. This is
  *   epected to have a forward slash at the beginning and end already.
  */
 function _component_build_library($assets, $subpath) {

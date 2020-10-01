@@ -6,17 +6,16 @@ use Drupal\Core\Site\Settings;
 use Drupal\Core\Serialization\Yaml;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
-use Drupal\component\RecursiveComponentFilterIterator;
 
 /**
  * Discovery service for front-end components provided by modules and themes.
- * 
+ *
  * This is heavily influenced by ExtensionDiscovery since we also need to
  * scan subdirectories to look for yml files.
- * 
+ *
  * Extensions can define components in a MACHINE_NAME.component.yml file
  * contained in the 'components' subfolder in the extension's base directory.
- * 
+ *
  * See the component_example module for more detailed examples.
  */
 class ComponentDiscovery implements ComponentDiscoveryInterface {
@@ -44,6 +43,7 @@ class ComponentDiscovery implements ComponentDiscoveryInterface {
 
   /**
    * Array of required keys in the component yml file.
+   *
    * @var array
    */
   protected $required = ['name', 'description'];
@@ -57,6 +57,7 @@ class ComponentDiscovery implements ComponentDiscoveryInterface {
 
   /**
    * Defines the default component configuration object.
+   *
    * @var array
    */
   protected $defaults = [
@@ -114,21 +115,21 @@ class ComponentDiscovery implements ComponentDiscoveryInterface {
     $component_files = $this->scan();
     // Process each component file.
     foreach ($component_files as $name => $filepath) {
-      // If the yml is valid and has data, then process it
+      // If the yml is valid and has data, then process it.
       if ($file_data = $this->parse($filepath)) {
         // Set the defaults and add the component data from the file.
         $component_data = array_merge($this->defaults, $file_data);
         // Create the component path and subpath (relative to the root).
         $path = str_replace($name . '.component.yml', '', $filepath);
         $subpath = str_replace($this->root, '', $path);
-        // Organize the components by type (block, library);
+        // Organize the components by type (block, library);.
         $type = $component_data['type'];
         // Build the components return array.
         $components[$type][$name] = $component_data;
         $components[$type][$name]['machine_name'] = $name;
         $components[$type][$name]['path'] = $path;
         $components[$type][$name]['subpath'] = $subpath;
-        }
+      }
     }
     // Allow the component info to be altered.
     $this->moduleHandler->alter('component_info', $components);
@@ -196,17 +197,18 @@ class ComponentDiscovery implements ComponentDiscoveryInterface {
    *   An array of component data read from the file.
    */
   protected function parse($filepath) {
-    $parsed_data =[];
-    // Make sure the file exists
+    $parsed_data = [];
+    // Make sure the file exists.
     if (file_exists($filepath)) {
       // Straight Yaml decode.
       // @TODO: test exception
       try {
         $parsed_data = Yaml::decode(file_get_contents($filepath));
-      } catch (InvalidDataTypeException $e) {
+      }
+      catch (InvalidDataTypeException $e) {
         throw new ComponentDiscoveryException(
           "Unable to parse {$filepath} " . $e->getMessage()
-        );
+              );
       }
       // @TODO : test required keys
       // @TODO : right now this kills the site
@@ -244,7 +246,6 @@ class ComponentDiscovery implements ComponentDiscoveryInterface {
     // for component yml files. This type of action can be resource intensive.
     // For performance reasons, we want to limit the numebr of subdirectories
     // that we will search inside of. First we create a filter to do so.
-
     // Use Unix paths regardless of platform, skip dot directories, follow
     // symlinks (to allow extensions to be linked from elsewhere), and return
     // the RecursiveDirectoryIterator instance to have access to getSubPath(),
@@ -267,7 +268,7 @@ class ComponentDiscovery implements ComponentDiscoveryInterface {
     // to avoid scanning all subdirs. Glad we put a leash on this thing, huh?
     $iterator = new \RecursiveIteratorIterator($filter, \RecursiveIteratorIterator::LEAVES_ONLY, \RecursiveIteratorIterator::CATCH_GET_CHILD);
 
-    // Loop through the files found in directory and all valid subdirectories
+    // Loop through the files found in directory and all valid subdirectories.
     foreach ($iterator as $key => $fileinfo) {
       // If this isn't a valid component file, then go check the next one.
       if (!preg_match(static::PHP_FUNCT_PATTERN, $fileinfo

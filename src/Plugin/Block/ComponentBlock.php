@@ -61,7 +61,7 @@ class ComponentBlock extends BlockBase implements ContainerFactoryPluginInterfac
     // Grab the template and build the render array.
     $build['#theme'] = $this->getThemeHook();
     $build['#html_template'] = $this->getTemplate();
-    $build['#content_attributes'] =  $this->buildAttributes();
+    $build['#content_attributes'] = $this->buildAttributes();
     // Add caching settings. These can be managed from the component.yml file.
     $build['#cache'] = $this->getCacheSettings();
     return $build;
@@ -267,7 +267,7 @@ class ComponentBlock extends BlockBase implements ContainerFactoryPluginInterfac
       return;
     }
     foreach ($entity as $field_name => $field) {
-      // @var \Drupal\Core\Field\FieldItemListInterface $field
+      /** @var \Drupal\Core\Field\FieldItemListInterface $field */
       $field_access = $field->access('view', NULL, TRUE);
 
       // @todo Used addCacheableDependency($field_access);
