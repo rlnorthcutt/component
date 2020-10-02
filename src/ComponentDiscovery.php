@@ -6,6 +6,7 @@ use Drupal\Core\Site\Settings;
 use Drupal\Core\Serialization\Yaml;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Discovery service for front-end components provided by modules and themes.
@@ -40,6 +41,13 @@ class ComponentDiscovery implements ComponentDiscoveryInterface {
    * @var \Drupal\Core\Extension\ThemeHandlerInterface
    */
   protected $themeHandler;
+
+  /**
+   * A logger instance.
+   *
+   * @var \Psr\Log\LoggerInterface
+   */
+  protected $logger;
 
   /**
    * Array of required keys in the component yml file.
@@ -93,11 +101,14 @@ class ComponentDiscovery implements ComponentDiscoveryInterface {
    *   The module handler.
    * @param \Drupal\Core\Extension\ThemeHandlerInterface $theme_handler
    *   The theme handler.
+   * @param \Psr\Log\LoggerInterface $logger
+   *   A logger instance.
    */
-  public function __construct($root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler) {
+  public function __construct($root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, LoggerInterface $logger) {
     $this->root = $root;
     $this->moduleHandler = $module_handler;
     $this->themeHandler = $theme_handler;
+    $this->logger = $logger;
   }
 
   /**
@@ -179,11 +190,10 @@ class ComponentDiscovery implements ComponentDiscoveryInterface {
     // Create a list of parent directories to search. Look in all active modules
     // and themes. Look in the root as well.
     $parents = array_merge($this->moduleHandler->getModuleDirectories(), $this->themeHandler->getThemeDirectories());
-    array_push($parents, ['root' => $this->root]);
+    $parents['root'] = $this->root;
     // Loop through the possible parent directories.
     foreach ($parents as $path) {
       // Only return paths that exist.
-      // @TODO: figure out why this gives an array to string notice.
       if (($component_dir = $path . '/components') && is_dir($component_dir)) {
         $dirs[] = $component_dir;
       }
@@ -220,8 +230,7 @@ class ComponentDiscovery implements ComponentDiscoveryInterface {
       $missing_keys = array_diff($this->required, array_keys($parsed_data));
       if (!empty($missing_keys)) {
         unset($parsed_data);
-        \Drupal::logger('component')
-          ->error('Component error: missing required keys (' . implode(', ', $missing_keys) . ') in ' . $filepath);
+        $this->logger->error('Component error: missing required keys (' . implode(', ', $missing_keys) . ') in ' . $filepath);
       }
     }
     return $parsed_data;

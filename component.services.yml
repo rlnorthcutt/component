@@ -1,9 +1,13 @@
 services:
+  logger.channel.component:
+    parent: logger.channel_base
+    arguments: ['component']
   component.discovery:
     class: \Drupal\component\ComponentDiscovery
     arguments:
       - '@app.root'
       - '@module_handler'
       - '@theme_handler'
+      - '@logger.channel.component'
     tags:
       - { name: plugin_manager_cache_clear }
