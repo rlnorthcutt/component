@@ -79,3 +79,29 @@ function _component_build_library(array $assets, $subpath) {
 
   return $processed;
 }
+
+/**
+ * Implements hook_help().
+ */
+function component_help($route_name) {
+  switch ($route_name) {
+    case 'help.page.component':
+      $output = '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('The Component module allows you to add web components to your Drupal site as blocks. All you need to do is to add a YML file for each component with the JS/CSS/HTML files. The Component module has a discovery system that will locate the components and register them in the system as blocks.') . '</p>';
+      $output .= '<p>' . t('This is designed to be as easy as possible for non-Drupal devlopers to be able to use - no PHP, no Twig, and no Drupalisms are required.') . '</p>';
+      $output .= '<h3>' . t('Usesage') . '</h3>';
+      $output .= '<dl>';
+      $output .= '<dt>' . t('Adding web components') . '</dt>';
+      $output .= '<dd>' . t('A component is simply a colelction of JS, CSS, and HTML packaged for usage in the Drupal site. The <em>components_example</em> module contains examples and sample code to get you started. Just add a <em>*.components.yml</em> file to your component, and you are done.') . '</dd>';
+      $output .= '<dt>' . t('Folder naming') . '</dt>';
+      $output .= '<dd>' . t('Components are only discovered in active modules and themes, and only if they are in a <em>component</em> subfolder. This is so we can limit the amount of searching in the codebase for performance reasons.') . '</dd>';
+      $output .= '<dt>' . t('YML file structure') . '</dt>';
+      $output .= '<dd>' . t('There are only two required fields in the YML file - name and description. However, there are several other options available - JS/CSS location (and library confirugation options), HTML location, block caching option, configuration form, dependencies, and component type. See the <em>example_tabs.component.yml</em> file for more information.') . '</dd>';
+      $output .= '<dt>' . t('Configuration options') . '</dt>';
+      $output .= '<dd>' . t('The YML file can provide configuration options for the site builder using Form API. The file can also contain static configuration items if needed. These configuration items are rendered as data attributes on the div wrapper around the component. This ensures that the component can easily access them from their parent element.') . '</dd>';
+      $output .= '<dt>' . t('Component type') . '</dt>';
+      $output .= '<dd>' . t('By default, the component module will present components as blocks in the system. However, they can also be presented as a "library" in the system. This is an easy way to add non presentation JS and dependencies into your system. The library will be available as "component/libraryName".') . '</dd>';
+      $output .= '</dl>';
+      return ['#markup' => $output];
+  }
+}
